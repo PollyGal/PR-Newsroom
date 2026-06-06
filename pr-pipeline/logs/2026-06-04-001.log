@@ -1,0 +1,14 @@
+2026-06-04T09:00:00+03:00 [SAGA] START brief_id=2026-06-04-001 topic="ПМЭФ-2026: ИИ-агенты будут принимать половину бизнес-решений к 2030 году"
+2026-06-04T09:00:01+03:00 [SAGA] READ source=outputs/hilda/briefs/_urgent/2026-06-04-001.md OK
+2026-06-04T09:00:01+03:00 [SAGA] READ brand_context=inputs/brand-context.md OK
+2026-06-04T09:00:02+03:00 [SAGA] READ media_profile=config/media-profiles/forbes_ru.md OK
+2026-06-04T09:00:02+03:00 [SAGA] READ media_profile=config/media-profiles/rbc_companies.md OK
+2026-06-04T09:00:02+03:00 [SAGA] READ media_profile=config/media-profiles/inc_russia.md OK
+2026-06-04T09:00:02+03:00 [SAGA] READ media_profile=config/media-profiles/setters.md OK
+2026-06-04T09:00:03+03:00 [SAGA] TEXTRU_API status=unavailable mode=manual_check
+2026-06-04T09:00:04+03:00 [SAGA] WRITE media_id=forbes_ru file=pr-pipeline/output/2026-06-04-001/forbes_ru.md chars=1847 status=needs_manual
+2026-06-04T09:00:05+03:00 [SAGA] WRITE media_id=rbc_companies file=pr-pipeline/output/2026-06-04-001/rbc_companies.md chars=1103 status=needs_manual
+2026-06-04T09:00:06+03:00 [SAGA] WRITE media_id=inc_russia file=pr-pipeline/output/2026-06-04-001/inc_russia.md chars=1421 status=needs_manual
+2026-06-04T09:00:07+03:00 [SAGA] WRITE media_id=setters file=pr-pipeline/output/2026-06-04-001/setters.md chars=1198 status=needs_manual
+2026-06-04T09:00:08+03:00 [SAGA] WRITE summary=pr-pipeline/output/2026-06-04-001/summary.json OK
+2026-06-04T09:00:08+03:00 [SAGA] DONE brief_id=2026-06-04-001 results=4 status=needs_manual

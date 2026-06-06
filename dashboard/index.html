@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Валькирии — PR-ньюсрум</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EFE5; --card:#FBF8F1; --ink:#221D17; --soft:#6E6557;
+    --line:rgba(34,29,23,.12); --line-2:rgba(34,29,23,.22);
+    --garnet:#8A2A33; --urgent:#C0392B; --important:#B07A1E; --ready:#3D6B50; --mute:#9A9082;
+    --serif:"Fraunces",Georgia,serif; --sans:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;
+    -webkit-font-smoothing:antialiased;padding:0 0 4rem}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:inherit}
+
+  /* header */
+  header{border-bottom:1.5px solid var(--ink);padding:22px 0 16px;margin-bottom:0}
+  .topline{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .brand{font-family:var(--serif);font-weight:600;font-size:34px;letter-spacing:.06em;text-transform:uppercase;line-height:1}
+  .brand small{display:block;font-family:var(--sans);font-weight:400;font-size:12px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--soft);margin-top:7px}
+  .meta{display:flex;align-items:center;gap:14px;font-size:12px;color:var(--soft)}
+  .badge{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    border:1px solid var(--garnet);color:var(--garnet);padding:4px 9px;border-radius:2px}
+  .date{font-family:var(--mono)}
+
+  /* pipeline strip */
+  .pipe{display:flex;align-items:stretch;gap:0;border-bottom:1px solid var(--line);padding:14px 0}
+  .step{flex:1;display:flex;align-items:center;gap:11px;padding:2px 18px;position:relative}
+  .step:not(:last-child)::after{content:"";position:absolute;right:0;top:18%;height:64%;width:1px;background:var(--line)}
+  .step .n{font-family:var(--mono);font-size:11px;color:var(--mute);border:1px solid var(--line-2);
+    width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;flex:0 0 auto}
+  .step b{font-family:var(--serif);font-weight:500;font-size:16px;display:block}
+  .step span{font-size:11.5px;color:var(--soft)}
+  .step:first-child{padding-left:0}
+
+  /* sections */
+  .grid{display:grid;grid-template-columns:1fr;gap:0}
+  section{padding:26px 0;border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--garnet);font-weight:600}
+  .sec-head h2{font-family:var(--serif);font-weight:500;font-size:21px}
+  .sec-head .note{font-size:12px;color:var(--soft);font-family:var(--mono)}
+
+  /* hilda briefs */
+  .briefs{display:grid;gap:10px}
+  .brief{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--mute);
+    border-radius:3px;padding:14px 16px;cursor:pointer;transition:border-color .18s,transform .18s}
+  .brief:hover{border-color:var(--line-2)}
+  .brief.sel{border-left-color:var(--garnet);box-shadow:0 1px 0 var(--line)}
+  .brief.u{border-left-color:var(--urgent)} .brief.i{border-left-color:var(--important)}
+  .brief .row1{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brief h3{font-family:var(--serif);font-weight:500;font-size:16.5px;line-height:1.25}
+  .pr{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 8px;border-radius:2px;white-space:nowrap;flex:0 0 auto}
+  .pr.u{background:rgba(192,57,43,.12);color:var(--urgent)}
+  .pr.i{background:rgba(176,122,30,.14);color:var(--important)}
+  .brief p{font-size:13px;color:var(--soft);margin-top:6px}
+  .brief .foot{display:flex;gap:18px;margin-top:10px;font-size:11.5px;color:var(--soft);font-family:var(--mono)}
+  .brief .foot b{color:var(--ink);font-weight:500}
+
+  /* saga versions */
+  .saga-for{font-size:12px;color:var(--soft);margin-bottom:14px;font-family:var(--mono)}
+  .saga-for b{color:var(--garnet)}
+  .vers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .v{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:14px 15px}
+  .v .vt{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+  .v .vt b{font-family:var(--serif);font-weight:500;font-size:15px}
+  .stat{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 7px;border-radius:2px}
+  .stat.ready{background:rgba(61,107,80,.13);color:var(--ready)}
+  .stat.manual{background:rgba(176,122,30,.14);color:var(--important)}
+  .stat.fail{background:rgba(34,29,23,.08);color:var(--mute)}
+  .uniq{display:flex;align-items:baseline;gap:6px;margin-bottom:8px}
+  .uniq .num{font-family:var(--mono);font-size:22px;font-weight:500}
+  .uniq .pct{font-family:var(--mono);font-size:13px;color:var(--soft)}
+  .uniq .x{font-size:12px;color:var(--soft)}
+  .bar{height:5px;background:rgba(34,29,23,.08);border-radius:3px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--ready)}
+  .v .iter{font-size:11px;color:var(--soft);margin-top:9px;font-family:var(--mono)}
+
+  /* freya ranking */
+  .rank{display:grid;gap:11px}
+  .r{display:grid;grid-template-columns:26px 1fr;gap:13px;align-items:center}
+  .r .place{font-family:var(--mono);font-size:13px;color:var(--soft);text-align:right}
+  .r .body{min-width:0}
+  .r .rb{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:5px}
+  .r .nm{font-family:var(--serif);font-size:16px;font-weight:500}
+  .r.z .nm{color:var(--garnet)}
+  .r .sc{font-family:var(--mono);font-size:14px}
+  .r .sc small{color:var(--soft);font-size:11px}
+  .r .track{height:8px;background:rgba(34,29,23,.07);border-radius:3px;overflow:hidden}
+  .r .track i{display:block;height:100%;background:var(--mute)}
+  .r.z .track i{background:var(--garnet)}
+
+  footer{padding-top:22px;font-size:11.5px;color:var(--soft);font-family:var(--mono);line-height:1.7}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(9px);animation:up .55s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes up{to{opacity:1;transform:none}}
+
+  /* brief hover */
+  .brief{transition:border-color .18s,transform .18s}
+  .brief:hover{border-color:var(--line-2)}
+
+  /* agent name entrance + shimmer */
+  @keyframes agent-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes name-shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+  .step b{
+    display:block;
+    background:linear-gradient(90deg,var(--ink) 35%,var(--garnet) 50%,var(--ink) 65%);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    animation:agent-in .55s cubic-bezier(.2,.7,.3,1) both,name-shimmer 4s linear infinite;
+  }
+  .step:nth-child(1) b{animation-delay:.25s,.85s}
+  .step:nth-child(2) b{animation-delay:.45s,1.05s}
+  .step:nth-child(3) b{animation-delay:.65s,1.25s}
+
+  @media(max-width:680px){
+    .pipe{flex-direction:column;gap:12px}
+    .step:not(:last-child)::after{display:none}
+    .step{padding:0}
+    .brand{font-size:27px}
+  }
+</style>
+</head>
+<body>
+<header class="rv">
+  <div class="wrap topline">
+    <div class="brand">Валькирии<small>PR-ньюсрум · Зерокодер</small></div>
+    <div class="meta">
+      <span class="badge" id="mode">демо-режим</span>
+      <span class="date" id="date"></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pipe rv" style="animation-delay:.05s">
+    <div class="step"><span class="n">1</span><span><b>Хильда</b><span>находит и приоритизирует поводы</span></span></div>
+    <div class="step"><span class="n">2</span><span><b>Сага</b><span>4 версии под СМИ + уникальность</span></span></div>
+    <div class="step"><span class="n">3</span><span><b>Фрейя</b><span>оценка выходов в PR Points</span></span></div>
+  </div>
+
+  <div class="grid">
+    <section class="rv" style="animation-delay:.1s">
+      <div class="sec-head">
+        <div><div class="label">Хильда · Newsjacking</div><h2>Инфоповоды и приоритет</h2></div>
+        <div class="note" id="hilda-note"></div>
+      </div>
+      <div class="briefs" id="briefs"></div>
+    </section>
+
+    <section class="rv" style="animation-delay:.15s">
+      <div class="sec-head">
+        <div><div class="label">Сага · Адаптер</div><h2>Версии под СМИ</h2></div>
+        <div class="note">порог ready ≥ 85%</div>
+      </div>
+      <div class="saga-for" id="saga-for"></div>
+      <div class="vers" id="vers"></div>
+    </section>
+
+    <section class="rv" style="animation-delay:.2s">
+      <div class="sec-head">
+        <div><div class="label">Фрейя · PR Points</div><h2>Рейтинг медиаэффективности</h2></div>
+        <div class="note" id="freya-note"></div>
+      </div>
+      <div class="rank" id="rank"></div>
+    </section>
+  </div>
+
+  <footer class="rv" style="animation-delay:.25s">
+    Блок Фрейи — прогностическая оценка 8 черновиков по 2 кампаниям 5 июня 2026. Тексты не опубликованы, уникальность требует ручной проверки на text.ru/antiplagiat. Реальные баллы появятся после выхода публикаций.<br>
+    PR Points = N × MQI. Арифметику считает скрипт calc_pr_points.py. PR Points — порядковая шкала, не точное измерение.
+  </footer>
+</div>
+
+<script>
+const DATA = {
+  meta:{ date:"5 июня 2026", mode:"Полный цикл · реальные данные" },
+  hilda:{
+    scanned:140, qualified:6, urgent:2,
+    briefs:[
+      { id:"rel-2026-06-05-nacplan-ai-gossluzh", priority:"urgent",
+        title:"Нацплан по ИИ: дедлайн 1 июня пройден — кто реально научит чиновников нейросетям?",
+        sut:"Путин поручил утвердить нацплан по ИИ к 1 июня. Дедлайн прошёл, медиа ищут экспертов. C октября 2025 запущена программа обучения госслужащих — охват пока лишь ~500 человек.",
+        ugol:"Типовые госпрограммы не работают. Нужны сценарии под конкретные задачи чиновника — именно так строит обучение Зерокодер.",
+        window:"до 6 июня 23:59", source:"РИА Новости · Ведомости · CNews" },
+      { id:"rel-2026-06-05-corp-ai-upskilling", priority:"important",
+        title:"Корпоративное ИИ-обучение — новый must-have: 61% компаний расширяют бюджеты",
+        sut:"B2B-курсы по ИИ растут в 3 раза быстрее рынка. Рынок L&D-платформ — 5,7 млрд руб. (+9% г/г). Компании перешли от вопроса «нужен ли ИИ» к «кто обучит быстро с результатом».",
+        ugol:"Зерокодер — практик с B2B-линейкой и венчурным фондом. Голос изнутри рынка, не со стороны.",
+        window:"до 10 июня", source:"РБК Компании · interforums.ru · Smart Ranking" },
+      { id:"2026-06-04-001", priority:"important",
+        title:"ПМЭФ-2026: ИИ-агенты будут принимать половину бизнес-решений к 2030",
+        sut:"Альянс ИИ на ПМЭФ: к 2030 году &gt;50% бизнес-решений — за ИИ-агентами. Три материала в Ведомостях вышли 4 июня.",
+        ugol:"Мы инвестировали в агентную экономику ещё до ПМЭФ — фонд Зерокодера ориентирован именно на неё.",
+        window:"окно закрылось", source:"Ведомости" },
+      { id:"2026-06-04-002", priority:"important",
+        title:"ИИ-навыки дают +34% к зарплате: данные hh.ru и Sense IT за I кв. 2026",
+        sut:"Спрос на ИИ-навыки +15% год к году, зарплата специалистов с ними на 34% выше. Данные I квартала 2026.",
+        ugol:"Зерокодер учит именно этим навыкам — можно показать данные выпускников как подтверждение.",
+        window:"до 10 июня", source:"hh.ru · Sense IT" },
+      { id:"2026-06-04-004", priority:"important",
+        title:"Венчурный рынок: сделок меньше, чеки выросли — ИИ в фокусе",
+        sut:"Корпоративный венчур сжался в 4 раза, число сделок упало на 42%. Pre-seed/seed в ИИ недофинансированы.",
+        ugol:"Фонд Зерокодера — умный капитал туда, откуда уходят крупные игроки.",
+        window:"до 15 июня", source:"Аналитика венчурного рынка 2025" },
+      { id:"2026-06-04-003", priority:"important",
+        title:"Vibeathon 2026: первый российский хакатон по вайбкодингу",
+        sut:"Анонсирован первый российский хакатон по вайбкодингу. Дата уточняется — низкая уверенность.",
+        ugol:"Пшинник — естественный эксперт и потенциальный ментор мероприятия.",
+        window:"до 14 июня", source:"vibeathon.ru" }
+    ]
+  },
+  saga:{
+    "rel-2026-06-05-nacplan-ai-gossluzh":[
+      {id:"forbes_ru",    name:"Forbes Russia", status:"manual", uniq:null, iter:0, headline:"Нацплан по ИИ принят — и что дальше? Почему гособучение рискует остаться имитацией"},
+      {id:"rbc_companies",name:"РБК Компании",  status:"manual", uniq:null, iter:0, headline:"Дедлайн нацплана по ИИ наступил: как государство планирует обучать чиновников"},
+      {id:"inc_russia",   name:"Инк",           status:"manual", uniq:null, iter:0, headline:"Государство решило научить чиновников нейросетям. Но кто умеет это делать?"},
+      {id:"setters",      name:"Setters Media", status:"manual", uniq:null, iter:0, headline:"Государство учит чиновников нейросетям — вот почему это важно лично для тебя"}
+    ],
+    "rel-2026-06-05-corp-ai-upskilling":[
+      {id:"rbc_companies",name:"РБК Компании",  status:"manual", uniq:null, iter:0, headline:"Корпоративные расходы на ИИ-обучение выросли: 61% компаний увеличили бюджеты"},
+      {id:"forbes_ru",    name:"Forbes Russia", status:"manual", uniq:null, iter:0, headline:"Корпоративный ИИ перестал быть экспериментом. Что это значит для рынка обучения"},
+      {id:"inc_russia",   name:"Инк",           status:"manual", uniq:null, iter:0, headline:"«Нужен ли вообще ИИ нашим сотрудникам?» Этот вопрос больше не задают"},
+      {id:"setters",      name:"Setters Media", status:"manual", uniq:null, iter:0, headline:"ИИ-обучение стало корпоративным must-have. Разбираем, почему это случилось сейчас"}
+    ],
+    "2026-06-04-001":[
+      {id:"forbes_ru",    name:"Forbes Russia", status:"manual", uniq:null, iter:0, headline:"Агентная экономика: мы сделали ставку до ПМЭФ"},
+      {id:"rbc_companies",name:"РБК Компании",  status:"manual", uniq:null, iter:0, headline:"Эксперт Зерокодера — о прогнозе ПМЭФ по ИИ-агентам"},
+      {id:"inc_russia",   name:"Инк",           status:"manual", uniq:null, iter:0, headline:"Мы вложили деньги в то, над чем другие ещё рассуждали"},
+      {id:"setters",      name:"Setters Media", status:"manual", uniq:null, iter:0, headline:"Агентный ИИ: кто уже поставил деньги и что делать вам"}
+    ],
+    "2026-06-04-002":[
+      {id:"forbes_ru",    name:"Forbes Russia", status:"manual", uniq:null, iter:0, headline:"ИИ-навыки как актив: почему разрыв в зарплатах будет расти"},
+      {id:"rbc_companies",name:"РБК Компании",  status:"manual", uniq:null, iter:0, headline:"Спрос на ИИ-специалистов вырос на 15% в I кв. 2026"},
+      {id:"inc_russia",   name:"Инк",           status:"manual", uniq:null, iter:0, headline:"Выучи промпты — получи надбавку"},
+      {id:"setters",      name:"Setters Media", status:"manual", uniq:null, iter:0, headline:"+34% к зарплате за ИИ-навыки: что это значит"}
+    ],
+    "2026-06-04-004":[], "2026-06-04-003":[]
+  },
+  freya:{
+    period:"5 июня 2026 · потенциал",
+    subjects:[{name:"Зерокодер",total:26.50,count:8,z:true}],
+    campaigns:[
+      {id:"rel-2026-06-05-nacplan-ai-gossluzh", label:"Нацплан по ИИ · 05.06",  count:4, total:9.25},
+      {id:"rel-2026-06-05-corp-ai-upskilling",  label:"Корп. ИИ-обучение · 05.06", count:4, total:17.25}
+    ],
+    publications:[
+      {outlet:"Forbes · нацплан",    format:"comment",  sentiment:"позитивная", keyMsg:true, N:5.0,  prPoints:2.50, campaign:"нацплан"},
+      {outlet:"РБК · нацплан",       format:"comment",  sentiment:"позитивная", keyMsg:true, N:5.0,  prPoints:2.50, campaign:"нацплан"},
+      {outlet:"Инк · нацплан",       format:"comment",  sentiment:"позитивная", keyMsg:true, N:4.5,  prPoints:2.25, campaign:"нацплан"},
+      {outlet:"Setters · нацплан",   format:"comment",  sentiment:"позитивная", keyMsg:true, N:4.0,  prPoints:2.00, campaign:"нацплан"},
+      {outlet:"Инк · корп. ИИ",      format:"case",     sentiment:"позитивная", keyMsg:true, N:4.5,  prPoints:6.75, campaign:"корп. ИИ"},
+      {outlet:"Forbes · корп. ИИ",   format:"interview",sentiment:"позитивная", keyMsg:true, N:5.0,  prPoints:6.00, campaign:"корп. ИИ"},
+      {outlet:"РБК · корп. ИИ",      format:"comment",  sentiment:"позитивная", keyMsg:true, N:5.0,  prPoints:2.50, campaign:"корп. ИИ"},
+      {outlet:"Setters · корп. ИИ",  format:"comment",  sentiment:"позитивная", keyMsg:true, N:4.0,  prPoints:2.00, campaign:"корп. ИИ"}
+    ]
+  }
+};
+
+const $=s=>document.querySelector(s);
+const PRI={urgent:["u","Срочно сегодня"],important:["i","Важно на неделе"]};
+const ST={ready:["ready","Готово"],manual:["manual","Ручная проверка → text.ru"],fail:["fail","Сбой"]};
+
+function countUp(el,target,dur=700,dec=0){
+  const t0=performance.now();
+  (function tick(now){
+    const p=Math.min((now-t0)/dur,1), e=1-Math.pow(1-p,3);
+    el.textContent=dec?(target*e).toFixed(dec):Math.round(target*e);
+    if(p<1)requestAnimationFrame(tick); else el.textContent=dec?target.toFixed(dec):String(target);
+  })(t0);
+}
+function growBar(el,pct,dur=700){
+  el.style.cssText='transition:none;width:0%';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    el.style.cssText=`transition:width ${dur}ms cubic-bezier(.2,.7,.3,1);width:${pct}%`;
+  }));
+}
+
+function renderHilda(){
+  const h=DATA.hilda;
+  $("#hilda-note").textContent=`просмотрено ${h.scanned} · в работу ${h.qualified} · срочных ${h.urgent}`;
+  const box=$("#briefs"); box.innerHTML="";
+  h.briefs.forEach((b,i)=>{
+    const cls=PRI[b.priority][0], el=document.createElement("div");
+    el.className=`brief ${cls}`+(i===0?" sel":""); el.dataset.id=b.id;
+    el.innerHTML=`<div class="row1"><h3>${b.title}</h3><span class="pr ${cls}">${PRI[b.priority][1]}</span></div>
+      <p>${b.sut}</p>
+      <div class="foot"><span>угол: <b>${b.ugol}</b></span><span>окно: <b>${b.window}</b></span><span>источник: <b>${b.source}</b></span></div>`;
+    el.addEventListener("click",()=>selectBrief(b.id));
+    box.appendChild(el);
+  });
+}
+
+function selectBrief(id){
+  document.querySelectorAll(".brief").forEach(e=>e.classList.toggle("sel",e.dataset.id===id));
+  renderSaga(id);
+}
+
+function renderSaga(id){
+  const b=DATA.hilda.briefs.find(x=>x.id===id), list=DATA.saga[id]||[];
+  $("#saga-for").innerHTML=`по поводу: <b>${b?b.title:"—"}</b>`;
+  const box=$("#vers"); box.innerHTML="";
+  if(!list.length){
+    box.innerHTML=`<div style="color:var(--soft);font-size:13px;font-family:var(--mono);padding:8px 0">Сага ещё не запускалась по этому поводу.</div>`;
+    return;
+  }
+  list.forEach((v,i)=>{
+    const st=ST[v.status]||ST.fail, el=document.createElement("div");
+    el.className="v";
+    const hasUniq=v.uniq!=null;
+    const uniqBlock=hasUniq
+      ?`<div class="uniq"><span class="u-num">0</span><span class="pct">%</span><span class="x">уникальность</span></div><div class="bar"><i></i></div>`
+      :`<div style="font-size:12px;color:var(--mute);margin:8px 0 4px;font-family:var(--mono)">уникальность не проверена</div>`;
+    const hl=v.headline?`<div style="font-size:12px;color:var(--soft);margin-top:8px;line-height:1.4">${v.headline}</div>`:'';
+    el.innerHTML=`<div class="vt"><b>${v.name}</b><span class="stat ${st[0]}">${st[1]}</span></div>${uniqBlock}${hl}<div class="iter" style="margin-top:8px">итераций: ${v.iter}</div>`;
+    box.appendChild(el);
+    if(hasUniq){
+      setTimeout(()=>{
+        countUp(el.querySelector('.u-num'),Math.round(v.uniq));
+        growBar(el.querySelector('.bar i'),Math.round(v.uniq));
+      },i*70);
+    }
+  });
+}
+
+function renderFreya(){
+  const f=DATA.freya;
+  $("#freya-note").textContent=`период ${f.period} · черновики, потенциальный PP`;
+  const max=Math.max(...f.subjects.map(s=>s.total));
+  const box=$("#rank"); box.innerHTML="";
+  [...f.subjects].sort((a,b)=>b.total-a.total).forEach((s,i)=>{
+    const el=document.createElement("div"); el.className="r"+(s.z?" z":"");
+    el.innerHTML=`<div class="place">${i+1}</div>
+      <div class="body">
+        <div class="rb"><span class="nm">${s.name}</span><span class="sc"><span class="sc-n">0</span> <small>· ${s.count} черновиков</small></span></div>
+        <div class="track"><i></i></div>
+      </div>`;
+    box.appendChild(el);
+    setTimeout(()=>{
+      const scEl=el.querySelector('.sc-n');
+      countUp(scEl,s.total,750,2);
+      growBar(el.querySelector('.track i'),Math.round(s.total/max*100),750);
+    },200+i*90);
+  });
+
+  if(f.campaigns&&f.campaigns.length){
+    const ct=document.createElement("div");
+    ct.style.cssText="margin-top:20px;padding-top:16px;border-top:1px solid var(--line)";
+    const rows=f.campaigns.map(c=>`<tr>
+      <td style="padding:7px 10px 7px 0;font-family:var(--serif);font-weight:500;font-size:14px;border-bottom:1px solid var(--line)">${c.label}</td>
+      <td style="padding:7px 10px 7px 0;font-size:12px;color:var(--soft);font-family:var(--mono);border-bottom:1px solid var(--line)">${c.count} черновика</td>
+      <td style="padding:7px 0 7px 0;font-family:var(--mono);font-weight:500;color:var(--garnet);text-align:right;border-bottom:1px solid var(--line)">${c.total.toFixed(2)}</td>
+    </tr>`).join('');
+    const total=f.campaigns.reduce((s,c)=>s+c.total,0);
+    ct.innerHTML=`<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--garnet);font-weight:600;margin-bottom:10px">По кампаниям</div>
+      <table style="width:100%;border-collapse:collapse"><tbody>${rows}</tbody>
+      <tfoot><tr>
+        <td style="padding-top:12px;font-family:var(--serif);font-size:14px;color:var(--soft)">Итого</td>
+        <td></td>
+        <td style="padding-top:12px;font-family:var(--mono);font-size:20px;font-weight:500;color:var(--garnet);text-align:right">${total.toFixed(2)}</td>
+      </tr></tfoot></table>`;
+    $("#rank").after(ct);
+  }
+}
+
+$("#date").textContent=DATA.meta.date;
+$("#mode").textContent=DATA.meta.mode;
+renderHilda();
+renderSaga(DATA.hilda.briefs[0].id);
+renderFreya();
+</script>
+</body>
+</html>

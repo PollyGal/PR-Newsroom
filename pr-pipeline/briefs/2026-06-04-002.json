@@ -1,0 +1,21 @@
+{
+  "brief_id": "2026-06-04-002",
+  "topic": "ИИ-навыки дают +34% к зарплате: данные hh.ru и Sense IT за I квартал 2026",
+  "angle": "Зерокодер учит именно тем навыкам, за которые платят больше — ИИ-образование стало инвестицией с измеримой финансовой отдачей",
+  "urgency": "important",
+  "source_material": "outputs/hilda/briefs/2026-06-04-002.md",
+  "brand_context": "inputs/brand-context.md",
+  "target_media": [
+    {"id": "forbes_ru",      "format": "аналитический материал", "priority": 1},
+    {"id": "rbc_companies",  "format": "комментарий",            "priority": 2},
+    {"id": "inc_russia",     "format": "тренд",                  "priority": 3},
+    {"id": "setters",        "format": "разбор тренда",          "priority": 4}
+  ],
+  "spokesperson": "Кирилл Пшинник, основатель и CEO Зерокодера",
+  "key_quotes_required": true,
+  "key_messages": [
+    "ИИ-навыки дают прибавку к зарплате",
+    "Зерокодер — онлайн-университет по обучению ИИ-навыкам и промпт-инжинирингу",
+    "Вайбкодинг — новый важный ИИ-навык на рынке труда"
+  ]
+}

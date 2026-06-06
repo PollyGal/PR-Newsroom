@@ -1,0 +1,11 @@
+{
+  "brief_id": "rel-2026-05-18-hh-paradox",
+  "campaign": "rel-2026-05-18-hh-paradox",
+  "processed_at": "2026-05-18T14:23:00Z",
+  "results": [
+    {"media_id": "forbes_ru",     "media_name": "Forbes Russia", "status": "ready",        "final_uniqueness": 96, "iterations": 1, "file": "forbes_ru.md"},
+    {"media_id": "rbc_companies", "media_name": "РБК Компании",  "status": "needs_manual", "final_uniqueness": 64, "iterations": 3, "file": "rbc_companies.md"},
+    {"media_id": "inc_russia",    "media_name": "Инк",           "status": "ready",        "final_uniqueness": 88, "iterations": 2, "file": "inc_russia.md"},
+    {"media_id": "setters",       "media_name": "Setters Media", "status": "ready",        "final_uniqueness": 92, "iterations": 1, "file": "setters.md"}
+  ]
+}
